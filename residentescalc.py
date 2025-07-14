@@ -13,7 +13,7 @@ st.title("📝 LIBRO DIARIO DE OBRA")
 actividades = [
     "Ducteado Embutido/Endosado", "Bandejado", "Cableado",
     "Montaje de Mecanismos de Iluminación", "Montaje de Artefactos",
-    "MTI", "Excavación", "Conexión de Tableros Eléctricos",
+    "MT", "Excavación", "Conexión de Tableros Eléctricos",
     "Lanzamiento de Alimentadores", "Puesta a Tierra"
 ]
 
@@ -43,35 +43,21 @@ with st.form(key="form_registro"):
                 horizontal=True, key="clima_tarde"
             )
 
-    # 3. Actividades
+        # 3. Actividades (mobile-friendly)
     st.subheader("Personal Directo y Cantidad Instalada")
-    cols_hdr = st.columns([3,1,1,1,1,2])
-    cols_hdr[0].write("**Actividad**")
-    cols_hdr[1].write("**Personal**")
-    cols_hdr[2].write("**HH**")
-    cols_hdr[3].write("**Un**")
-    cols_hdr[4].write("**m**")
-    cols_hdr[5].write("**OBS**")
-
     registro_actividades = []
     for act in actividades:
-        cols = st.columns([3,1,1,1,1,2])
-        cols[0].write(act)
-        cnt = cols[1].number_input("", min_value=0, key=f"cnt_{act}")
-        hh  = cols[2].number_input("", min_value=0.0, step=0.5, key=f"hh_{act}")
-        un  = cols[3].number_input("", min_value=0.0, key=f"un_{act}")
-        m   = cols[4].number_input("", min_value=0.0, key=f"m_{act}")
-        obs = cols[5].text_input("", key=f"obs_{act}")
-        registro_actividades.append({
-            "Actividad": act,
-            "Personal": cnt,
-            "HH": hh,
-            "Un": un,
-            "m": m,
-            "Obs": obs
-        })
+        with st.expander(act):
+            p1, p2, p3, p4, p5 = st.columns([1,1,1,1,2])
+            cnt = p1.number_input("Personal", min_value=0, key=f"cnt_{act}")
+            hh  = p2.number_input("HH", min_value=0.0, step=0.5, key=f"hh_{act}")
+            un  = p3.number_input("Un", min_value=0.0, key=f"un_{act}")
+            m   = p4.number_input("m", min_value=0.0, key=f"m_{act}")
+            obs = p5.text_input("Obs", key=f"obs_{act}")
+            registro_actividades.append({"Actividad": act, "Personal": cnt, "HH": hh, "Un": un, "m": m, "Obs": obs})
 
     # 4. Detalle de actividades
+ #Detalle de actividades
     detalle = st.text_area(
         "4. Detalle de las actividades realizadas",
         height=120,
